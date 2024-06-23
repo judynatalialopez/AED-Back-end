@@ -2,7 +2,8 @@
 
 # Ejecutar la Api
 
-- ipconfig
+- npx knex migrate:latest --knexfile ./config/knexfile.js (migraciones)
+- ipconfig (ip local)
 - npm install express
 - npx install
 - npm install morgan
