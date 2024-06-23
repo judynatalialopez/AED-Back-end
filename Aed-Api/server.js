@@ -8,6 +8,7 @@ const cors = require('cors');
 // Importar rutas
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const subsidioRoutes = require('./routes/subsidioRoutes');
+const administradorRoutes = require('./routes/administradorRoutes');
 
 const port = process.env.PORT || 3000;
 app.use(logger('dev'));
@@ -20,6 +21,7 @@ app.set('port', port);
 // LLamando las rutas
 usuarioRoutes(app);
 subsidioRoutes(app);
+administradorRoutes(app);
 
 // Dirección IP V4 de la máquina, consultar con ipconfig
 
