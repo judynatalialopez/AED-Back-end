@@ -7,4 +7,5 @@
 - npx install
 - npm install morgan
 - npm install knex
+- node server.js
   
