@@ -2,6 +2,7 @@
 
 # Ejecutar la Api
 
+- ipconfig
 - npm install express
 - npx install
 - npm install morgan
