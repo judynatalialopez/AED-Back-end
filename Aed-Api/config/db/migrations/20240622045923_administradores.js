@@ -3,13 +3,12 @@ const saltRounds = 10;
 
 exports.up = function(knex) {
     return knex.schema.createTable('Administradores', function(table) {
-        table.increments('ID').primary();
+        table.bigInteger('numero_de_cedula', 12).notNullable().primary();
         table.string('primer_nombre', 25).notNullable();
         table.string('segundo_nombre', 25).nullable();
         table.string('primer_apellido', 25).notNullable();
         table.string('segundo_apellido', 25).nullable();
         table.string('email', 50).notNullable(); // Aumentado a 50 caracteres
-        table.bigInteger('numero_de_cedula', 12).notNullable();
         table.string('contrasena', 60).notNullable(); // Aumentado a 60 caracteres para el hash de bcrypt
         table.bigInteger('telefono', 15).notNullable(); // Aumentado a 15 caracteres
     })
