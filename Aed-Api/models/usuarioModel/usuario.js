@@ -7,6 +7,18 @@ const usuario = {};
 usuario.create = async (usuario) => {
     return new Promise(async (resolve, reject) => {
         try {
+            // Verificar que el usuario tenga al menos 55 años
+            const fechaNacimiento = new Date(usuario.Fecha_de_Nacimiento);
+            const hoy = new Date();
+            const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+            const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+                edad--;
+            }
+            if (edad < 55) {
+                throw new Error('El usuario debe tener al menos 55 años para ser registrado.');
+            }
+
             // Generar un hash de la contraseña antes de almacenarla
             const hash = await bcrypt.hash(usuario.Contrasena, saltRounds);
 
@@ -24,7 +36,7 @@ usuario.create = async (usuario) => {
                 Telefono: usuario.Telefono,
                 Fecha_de_Registro: knex.fn.now(),
                 Numero_de_Cuenta_Ahorro: usuario.Numero_de_Cuenta_Ahorro,
-                Estado: usuario.Estado
+                Estado: 1 // Estado por defecto como 1
             });
 
             console.log('Id del nuevo usuario: ', insertedIds[0]);
