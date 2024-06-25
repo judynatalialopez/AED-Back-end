@@ -163,5 +163,37 @@ module.exports = {
                 error: err
             });
         }
+    },
+
+    async loginAdministrador(req, res) {
+        const { email, contrasena } = req.body; // Obtener el email y la contraseña del cuerpo de la solicitud
+
+        try {
+            const admin = await administradorModel.login(email, contrasena);
+            return res.status(200).json({
+                success: true,
+                message: 'Login exitoso',
+                data: admin
+            });
+        } catch (err) {
+            if (err.kind === 'not_found') {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Administrador no encontrado'
+                });
+            } else if (err.kind === 'invalid_password') {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Contraseña incorrecta'
+                });
+            }
+            console.error('Error al iniciar sesión:', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error al iniciar sesión',
+                error: err
+            });
+        }
     }
 };
+

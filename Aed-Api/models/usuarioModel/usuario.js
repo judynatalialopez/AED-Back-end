@@ -119,4 +119,31 @@ usuario.findAll = async () => {
     });
 };
 
+// Login de usuario por email y contraseña
+usuario.login = async (Email, Contrasena) => {
+    try {
+        // Buscar el administrador por email
+        const user = await knex('Usuario')
+            .where({ Email })
+            .first();
+
+        if (!user) {
+            throw { kind: 'not_found' };
+        }
+
+        // Comparar la contraseña proporcionada con el hash almacenado
+        const match = await bcrypt.compare(Contrasena, user.Contrasena);
+
+        if (!match) {
+            throw { kind: 'invalid_password' };
+        }
+
+        return user;
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        throw error;
+    }
+};
+
+
 module.exports = usuario;

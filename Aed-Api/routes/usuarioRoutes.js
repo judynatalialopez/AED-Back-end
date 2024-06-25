@@ -14,5 +14,8 @@ module.exports = (app) => {
     app.get('/api/usuario/:Numero_de_Cedula', usuarioController.getUsuario);
 
     // Ruta para obtener todos los usuarios
-    app.get('/api/usuarios', usuarioController.getAllUsuarios); 
+    app.get('/api/usuarios', usuarioController.getAllUsuarios);
+
+    // Ruta para iniciar sesión de usuario
+    app.post('/api/usuario/login', usuarioController.LoginUsuario);
 };

@@ -15,4 +15,7 @@ module.exports = (app) => {
 
     // Ruta para obtener todos los administradores
     app.get('/api/administradores', administradorController.getAllAdministradores); 
+
+    // Ruta para el login de administrador
+    app.post('/api/administrador/login', administradorController.loginAdministrador);
 };

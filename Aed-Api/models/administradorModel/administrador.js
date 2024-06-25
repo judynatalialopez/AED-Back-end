@@ -113,4 +113,30 @@ administrador.findAll = async () => {
     }
 };
 
+// Login de administrador por email y contraseña
+administrador.login = async (email, contrasena) => {
+    try {
+        // Buscar el administrador por email
+        const admin = await knex('Administradores')
+            .where({ email }) // Ajustar aquí a 'email' en lugar de 'Email'
+            .first();
+
+        if (!admin) {
+            throw { kind: 'not_found' };
+        }
+
+        // Comparar la contraseña proporcionada con el hash almacenado
+        const match = await bcrypt.compare(contrasena, admin.contrasena);
+
+        if (!match) {
+            throw { kind: 'invalid_password' };
+        }
+
+        return admin;
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        throw error;
+    }
+};
+
 module.exports = administrador;

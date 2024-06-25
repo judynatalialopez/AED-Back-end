@@ -130,5 +130,36 @@ module.exports = {
                 error: err
             });
         }
+    },
+
+    async LoginUsuario(req, res) {
+        const { Email, Contrasena } = req.body; // Obtener el email y la contraseña del cuerpo de la solicitud
+
+        try {
+            const user = await usuarioModel.login(Email, Contrasena);
+            return res.status(200).json({
+                success: true,
+                message: 'Login exitoso',
+                data: user
+            });
+        } catch (err) {
+            if (err.kind === 'not_found') {
+                return res.status(404).json({
+                    success: false,
+                    message: 'usuario no encontrado'
+                });
+            } else if (err.kind === 'invalid_password') {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Contraseña incorrecta'
+                });
+            }
+            console.error('Error al iniciar sesión:', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error al iniciar sesión',
+                error: err
+            });
+        }
     }
 };
