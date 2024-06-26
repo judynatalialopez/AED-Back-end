@@ -93,4 +93,25 @@ subsidio.findAll = async () => {
     });
 };
 
+subsidio.findByEmail = async (email) => {
+    try {
+        const usuario = await knex('Usuario')
+            .where({ Email: email })
+            .first();
+
+        if (!usuario) {
+            throw `No se encontró ningún usuario con el email ${email}`;
+        }
+
+        const subsidios = await knex('subsidio')
+            .where({ ID_Usuario: usuario.Numero_de_Cedula }) // Asegúrate de usar la columna correcta para la relación
+            .select('*');
+
+        return subsidios;
+    } catch (error) {
+        console.error('Error al buscar subsidios por email: ', error);
+        throw error;
+    }
+};
+
 module.exports = subsidio;

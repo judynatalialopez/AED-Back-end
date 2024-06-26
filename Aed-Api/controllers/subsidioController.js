@@ -97,5 +97,25 @@ module.exports = {
                 error: err
             });
         }
+    },
+
+    async getSubsidiosByEmail(req, res) {
+        const { email } = req.params; // Email del usuario para obtener subsidios
+    
+        try {
+            const subsidios = await subsidioModel.findByEmail(email);
+            return res.status(200).json({
+                success: true,
+                data: subsidios
+            });
+        } catch (err) {
+            console.error('Error al obtener los subsidios por email del usuario: ', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error al obtener los subsidios por email del usuario',
+                error: err
+            });
+        }
     }
+    
 };

@@ -131,16 +131,21 @@ usuario.findAll = async () => {
     });
 };
 
-// Login de usuario por email y contraseña
+
 usuario.login = async (Email, Contrasena) => {
     try {
-        // Buscar el administrador por email
+        // Buscar el usuario por email
         const user = await knex('Usuario')
             .where({ Email })
             .first();
 
         if (!user) {
             throw { kind: 'not_found' };
+        }
+
+        // Verificar si el usuario está activo
+        if (user.Estado !== 1) {
+            throw { kind: 'inactive_account' };
         }
 
         // Comparar la contraseña proporcionada con el hash almacenado
@@ -155,8 +160,8 @@ usuario.login = async (Email, Contrasena) => {
         console.error('Error al iniciar sesión:', error);
         throw error;
     }
-
 };
+
 
 usuario.updatePassword = async (Numero_de_Cedula, Email, NuevaContrasena) => {
     return new Promise(async (resolve, reject) => {

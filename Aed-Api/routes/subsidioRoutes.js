@@ -15,4 +15,7 @@ module.exports = (app) => {
 
     // Ruta para obtener todos los subsidios
     app.get('/api/subsidios', subsidioController.getAllSubsidios);
+
+    // Ruta para obtener subsidios por email del usuario
+    app.get('/api/subsidios/email/:email', subsidioController.getSubsidiosByEmail);
 };
