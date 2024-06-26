@@ -18,4 +18,7 @@ module.exports = (app) => {
 
     // Ruta para iniciar sesión de usuario
     app.post('/api/usuario/login', usuarioController.LoginUsuario);
+
+    // Ruta para actualizar la contraseña de un usuario
+    app.put('/api/usuario/updatePassword', usuarioController.updatePassword);
 };

@@ -161,5 +161,36 @@ module.exports = {
                 error: err
             });
         }
-    }
+    },
+
+        async updatePassword(req, res) {
+        const { Numero_de_Cedula, Email, NuevaContrasena } = req.body; // Obtener los datos necesarios para actualizar la contraseña
+
+        try {
+            // Generar un hash de la nueva contraseña
+            const hash = await bcrypt.hash(NuevaContrasena, saltRounds);
+
+            // Actualizar la contraseña en la base de datos
+            const result = await usuarioModel.updatePassword(Numero_de_Cedula, Email, hash);
+
+            if (result === null) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Usuario no encontrado o email incorrecto'
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: 'Contraseña actualizada correctamente'
+            });
+        } catch (err) {
+            console.error('Error al actualizar la contraseña: ', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error al actualizar la contraseña',
+                error: err
+            });
+        }
+    },
 };

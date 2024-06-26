@@ -155,6 +155,36 @@ usuario.login = async (Email, Contrasena) => {
         console.error('Error al iniciar sesión:', error);
         throw error;
     }
+
+};
+
+usuario.updatePassword = async (Numero_de_Cedula, Email, NuevaContrasena) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Verificar que el usuario existe y el correo es correcto
+            const user = await knex('Usuario')
+                .where({ Numero_de_Cedula, Email })
+                .first();
+
+            if (!user) {
+                resolve(null); // No se encontró el usuario o el correo es incorrecto
+                return;
+            }
+
+            // Generar un hash de la nueva contraseña
+            const hash = await bcrypt.hash(NuevaContrasena, saltRounds);
+
+            // Actualizar la contraseña en la base de datos
+            await knex('Usuario')
+                .where({ Numero_de_Cedula, Email })
+                .update({ Contrasena: hash });
+
+            resolve('Contraseña actualizada correctamente');
+        } catch (error) {
+            console.error('Error al actualizar la contraseña: ', error);
+            reject(error);
+        }
+    });
 };
 
 
